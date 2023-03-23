@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "start" : "nodemon --inspect src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.0.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.21"
+  }
+}
