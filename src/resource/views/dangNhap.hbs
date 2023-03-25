@@ -54,9 +54,11 @@
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).then((res) => {
+                }).then(async (res) => {
                     if (res.status === 200) {
-                        document.getElementById('theFormID').submit();
+                        const json = await res.json();
+                        localStorage.setItem('nameAdminLogin',json.data.name);
+                        document.getElementById("theFormID").submit();
                     } else {
                         Swal.fire(
                             'Thông báo!',
