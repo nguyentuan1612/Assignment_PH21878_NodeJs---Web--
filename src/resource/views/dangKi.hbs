@@ -10,23 +10,24 @@
                     <div class="col-lg-5 col-md-8 col-12 mx-auto">
                         <div class="card z-index-0 fadeIn3 fadeInBottom">
                             <div class="card-body">
-                                <form id="theFormID" role="form" class="text-start" method="get" action="/login">
+                                <form id="theFormID" role="form" class="text-start" method="POST"
+                                    action="/user/createUser/store">
                                     <h2>Đăng Ký</h2>
                                     <div class="input-group input-group-outline my-3">
                                         <input id="name" type="text" class="form-control" required
-                                            placeholder="Nhập họ tên">
+                                            placeholder="Nhập họ tên" name="name">
                                     </div>
                                     <div class="input-group input-group-outline my-3">
                                         <input id="email" type="email" class="form-control" required
-                                            placeholder="Nhập email">
+                                            placeholder="Nhập email" name="email">
                                     </div>
                                     <div class="input-group input-group-outline mb-3">
                                         <input type="password" class="form-control" required placeholder="Nhập mật khẩu"
-                                            id="password">
+                                            id="password" name="password">
                                     </div>
                                     <div class="input-group input-group-outline mb-3">
                                         <input type="password" class="form-control" required
-                                            placeholder="Nhập lại mật khẩu" id="rePassword">
+                                            placeholder="Nhập lại mật khẩu" id="rePassword" name='rePassword'>
                                     </div>
                                     <div class="text-center">
                                         <button type="button" style="background-color: purple;color: #fff;"
