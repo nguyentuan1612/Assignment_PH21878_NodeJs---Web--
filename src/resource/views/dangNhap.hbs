@@ -37,8 +37,7 @@
         </div>
     </main>
     <script>
-        history.forward();
-        const dangnhap = () => {
+        const dangnhap = async () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             if (email.trim() === "" || password.trim() === "") {
@@ -48,19 +47,24 @@
                     'error'
                 )
                 return;
-            }
-            const Email = 'tuanbeocoi1@gmail.com';
-            const Password = '123';
-            if (email.trim() !== Email || password.trim() !== Password) {
-                Swal.fire(
-                    'Thông báo!',
-                    'Đăng nhập thất bại !!',
-                    'error'
-                )
             } else {
-                document.getElementById('theFormID').submit();
-
+                const response = await fetch('http://localhost:3000/user/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email: email, password: password }), // string or object
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((res) => {
+                    if (res.status === 200) {
+                        document.getElementById('theFormID').submit();
+                    } else {
+                        Swal.fire(
+                            'Thông báo!',
+                            'Đăng nhập thất bại !!',
+                            'error'
+                        )
+                    }
+                }).catch((error) => alert(error));
             }
-
         }
     </script>

@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white  " href="/addProduct">
+                <a class="nav-link text-white  " href="/sanPham/addProduct">
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div> --}}
@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white active" style="background-color: purple;" href="/listUser">
+                <a class="nav-link text-white active" style="background-color: purple;" href="/User">
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div> --}}
@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="/addUser">
+                <a class="nav-link text-white" href="/user/createUser">
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">notifications</i>
                     </div> --}}
@@ -101,155 +101,29 @@
                                     <tr>
                                         <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                                             người dùng</th>
-                                        <th
-                                            class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
-                                            tuổi</th>
-                                        <th
-                                            class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
-                                            quê quán</th>
                                         <th class="text-dark opacity-7"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{#each element}}
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="https://qph.cf2.quoracdn.net/main-qimg-6cdacca8b9af4283eac60abbc764faf7.webp"
+                                                    <img src={{this.image}}
                                                         class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Nguyễn tuấn</h6>
-                                                    <p class="text-xs text-dark mb-0">tuannaph2178@fpt.edu.vn</p>
+                                                    <h6 class="mb-0 text-sm">{{this.name}}</h6>
+                                                    <p class="text-xs text-dark mb-0">{{this.email}}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">18</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Hà nội</p>
-                                        </td>
-                                        <td class="align-middle">
-                                             <button type="button" class="btn btn-dark btn-sm" onclick="deleteUser()">XÓA</button>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="https://qph.cf2.quoracdn.net/main-qimg-6cdacca8b9af4283eac60abbc764faf7.webp"
-                                                        class="avatar avatar-sm me-3 border-radius-lg" alt="user2">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Trần huy</h6>
-                                                    <p class="text-xs text-dark mb-0">xuanCcp22004@fpt.edu.vn</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">19</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Hà nội</p>
-                                        </td>
-                                        <td class="align-middle">
-                                             <button type="button" class="btn btn-dark btn-sm" onclick="deleteUser()">XÓA</button>
+                                             <button type="button" class="btn btn-dark btn-sm mt-3" onclick="deleteUser()">XÓA</button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="https://qph.cf2.quoracdn.net/main-qimg-6cdacca8b9af4283eac60abbc764faf7.webp"
-                                                        class="avatar avatar-sm me-3 border-radius-lg" alt="user3">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Thanh quân</h6>
-                                                    <p class="text-xs text-dark mb-0">thanhnhph21878@fpt.edu.vn</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">20</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Hà nội</p>
-                                        </td>
-                                        <td class="align-middle">
-                                             <button type="button" class="btn btn-dark btn-sm" onclick="deleteUser()">XÓA</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="https://qph.cf2.quoracdn.net/main-qimg-6cdacca8b9af4283eac60abbc764faf7.webp"
-                                                        class="avatar avatar-sm me-3 border-radius-lg" alt="user4">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Xuân chiến</h6>
-                                                    <p class="text-xs text-dark mb-0">michael@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">17</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Hà nội</p>
-                                        </td>
-                                        <td >
-                                             <button type="button" class="btn btn-dark btn-sm" onclick="deleteUser()">XÓA</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="https://qph.cf2.quoracdn.net/main-qimg-6cdacca8b9af4283eac60abbc764faf7.webp"
-                                                        class="avatar avatar-sm me-3 border-radius-lg" alt="user5">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Bảo nguyễn</h6>
-                                                    <p class="text-xs text-dark mb-0">tinhncph28463@fpt.edu.vn</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">18</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Hà nội</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <button type="button" class="btn btn-dark btn-sm" onclick="deleteUser()">XÓA</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="https://qph.cf2.quoracdn.net/main-qimg-6cdacca8b9af4283eac60abbc764faf7.webp"
-                                                        class="avatar avatar-sm me-3 border-radius-lg" alt="user6">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Vương phạm</h6>
-                                                    <p class="text-xs text-dark mb-0">danhncph9866@fpt.edu.vn</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">18</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Hà nội</p>
-                                        </td>
-                                        <td >
-                                          <button type="button" class="btn btn-dark btn-sm" onclick="deleteUser()">XÓA</button>
-                                        </td>
-                                    </tr>
+                                    {{/each}}
                                 </tbody>
                             </table>
                         </div>
