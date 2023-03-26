@@ -1,5 +1,31 @@
 const User = require("../models/User");
-const { mutipleMongooseToObject, MongooseToObject } = require("../../util/mongoose");
+const {
+  mutipleMongooseToObject,
+  MongooseToObject,
+} = require("../../util/mongoose");
+const store = require('store')
+const multer = require("multer");
+const fs = require("fs");
+const dir = "uploads"
+let nameImg;
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, 0744);
+}
+
+const storage = multer.diskStorage({
+  destination: (req,file,cb) => {
+    cb(null,'./uploads')
+  },
+  filename: (res,file,cb) =>{
+    nameImg = file.originalname;
+    // console.log(file);
+    cb(null,file.originalname);
+
+  }
+})
+ upload = multer({storage:storage}).single("filetoupload");
+
+
 class userController {
   createUser(req, res) {
     res.render("themNguoiDung");
@@ -9,41 +35,57 @@ class userController {
   }
   async login(req, res, next) {
     const { email, password } = await req.body;
-    User.findOne({ email: email }).then(async (response) => {
-      const data = await MongooseToObject(response);
-      if (data) {
-        if (data.email === email && data.password === password) {
-          return res.status(200).json({ message: 'success' ,data : data})
+    User.findOne({ email: email })
+      .then(async (response) => {
+        const data = await MongooseToObject(response);
+        if (data) {
+          if (data.email === email && data.password === password) {
+            store.set('nameAdminLogin', data.name)
+            store.set('idAdminLogin', data._id)
+            return res.status(200).json({ message: "success"});
+          } else {
+            return res.status(404).json({ message: "fail" });
+          }
         } else {
-          return res.status(404).json({ message: 'fail' })
+          res.status(404).json({ message: "server error" });
         }
-      }
-    }).catch((error) => {
-      res.status(404).json({ message: "server error" })
-    })
-
+      })
+      .catch((error) => {
+        res.status(404).json({ message: "server error" });
+      });
   }
   store(req, res, next) {
-    const dataUser = req.body;
-    dataUser.image = "https://ibiettuot.com/wp-content/uploads/2021/10/avatar-mac-dinh.png";
-    const user = new User(dataUser);
-    user.save()
-      .then(() => {
-        return res.status(201).json({ message: "created" })
-      })
-      .catch((error) => res.status(500).json({ message: "error" }));
-
-    // res.json(dataUser)
-  }
-  // createUser(req,res){
-  //     res.render('xoaNguoi');
+  upload(req,res,(err) => {
+    if(err){
+      res.send(err)
+    }else{
+      const dataUser = req.body;
+      dataUser.image = nameImg;
+      dataUser.password = '123'
+      const user = new User(dataUser);
+      user.save().then(() => {
+          // return res.status(201).json({ message: "created" });
+          res.redirect('/user/createUser')
+        })
+        .catch((error) => res.status(500).json({ message: error }));
+    }
   // }
+})
+  }
   index(req, res) {
     User.find({}).then((element) =>
       res.render("danhSachNguoiDung", {
         element: mutipleMongooseToObject(element),
       })
     );
+  }
+  account(req, res, next) {
+    const id = store.get("idAdminLogin");
+    User.findById({ _id: id })
+      .then((element) => {
+        res.render("taiKhoan", { element: MongooseToObject(element) });
+      })
+      .catch((error) => next(error));
   }
 }
 

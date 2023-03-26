@@ -1,7 +1,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 fixed-start  bg-gradient-dark" id="sidenav-main"
     style="background-color: #222222;">
     <div class="sidenav-header ">
-   <span class=" font-weight-bold text-white position-absolute  top-3 start-9">NGUYỄN TUẤN</span>
+   <span class=" font-weight-bold text-white position-absolute  top-3 start-9">{{element.name}}</span>
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
@@ -43,7 +43,7 @@
                     khoản</h6>
             </li>
             <li class="nav-item ">
-                <a class="nav-link text-white active" style="background-color: purple; " href="/account">
+                <a class="nav-link text-white active" style="background-color: purple; " href="/user/account">
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person</i>
                     </div> --}}
@@ -91,7 +91,7 @@
                             <div class="mb-3 mx-5 p-2">
                                 <div class="row">
                                     <div class="col-lg-12  text-center mb-3">
-                                        <img class="rounded-circle" style="width: 150px; height: 150px; margin-bottom: 10px;" src="https://images.generated.photos/BoTc0W7lrZY6PK7awuK67oMt0zIa05_jVGzL9Q4t7qI/rs:fit:256:256/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/NTUxMTEwLmpwZw.jpg" alt="Avatar">
+                                        <img class="rounded-circle" style="width: 150px; height: 150px; margin-bottom: 10px;" src="{{element.image}}" alt="Avatar">
                                     </div>
                                     <div style=" text-align:center; border:thin solid black; border-radius: 5px;" class="col-lg-12 ">
                                     <label for="inputTag" style=" cursor:pointer">
@@ -107,16 +107,11 @@
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputPassword1" class="form-label">Email</label>
                                 <input type="text" class="form-control border border-dark ps-2"
-                                    id="exampleInputPassword1" value="tuannaph21878@fpt.edu.vn">
+                                    id="exampleInputPassword1" value="{{element.email}}">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputEmail1" class="form-label">Họ và tên</label>
-                                <input type="text" class="form-control border border-dark ps-2" value="Nguyễn Anh Tuấn">
-                            </div>
-                            <div class="mb-3 mx-5">
-                                <label for="exampleInputPassword1" class="form-label">Quê quán</label>
-                                <input type="text" class="form-control border border-dark ps-2"
-                                    id="exampleInputPassword1" value="Hà Nội">
+                                <input type="text" class="form-control border border-dark ps-2" value="{{element.name}}">
                             </div>
                             <div class="container-fluid text-center">
                                 <button style=" background-color: Purple; width: 40%;" type="button"
