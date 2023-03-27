@@ -54,23 +54,43 @@ class userController {
         res.status(404).json({ message: "server error" });
       });
   }
-  store(req, res, next) {
-  upload(req,res,(err) => {
-    if(err){
-      res.send(err)
-    }else{
-      const dataUser = req.body;
-      dataUser.image = nameImg;
-      dataUser.password = '123'
-      const user = new User(dataUser);
+  storeCreate(req, res, next) {
+  //  if(nameImg === undefined){
+  //   const dataUser = req.body;
+  //     dataUser.image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzPprM_CZdb09M5rjPup96Hzjn5jGWYgX6xQimH2Cdsg&s';
+  //     // if(re)
+  //     const user = new User(dataUser);
+  //     user.save().then(() => {
+  //         return res.status(201).json({ message: "created" });
+  //         // res.redirect('/user/createUser')
+  //       })
+  //       .catch((error) => res.status(500).json({ message: error }));
+  //  }else{
+    upload(req,res,async (err) => {
+      if(err){
+        res.send(err)
+      }else{
+        const dataUser = await req.body;
+        dataUser.image = await nameImg;
+        dataUser.password = '123';
+        // if(re)
+        const user = new User(dataUser);
+        user.save().then(() => {
+            // return res.status(201).json({ message: "created" });
+            res.redirect('/user/createUser')
+          })
+          .catch((error) => res.status(500).json({ message: error }));
+      }
+  })
+  }
+  storeRegister(req,res){
+    const dataUser = req.body;
+    dataUser.image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzPprM_CZdb09M5rjPup96Hzjn5jGWYgX6xQimH2Cdsg&s';
+    const user = new User(dataUser);
       user.save().then(() => {
-          // return res.status(201).json({ message: "created" });
-          res.redirect('/user/createUser')
+          return res.status(201).json({ message: "created" });
         })
         .catch((error) => res.status(500).json({ message: error }));
-    }
-  // }
-})
   }
   index(req, res) {
     User.find({}).then((element) =>
