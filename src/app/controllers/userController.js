@@ -4,26 +4,6 @@ const {
   MongooseToObject,
 } = require("../../util/mongoose");
 const store = require('store')
-const multer = require("multer");
-const fs = require("fs");
-const dir = "uploads"
-let nameImg;
-if (!fs.existsSync(dir)) {
-  fs.mkdirSync(dir, 0744);
-}
-
-const storage = multer.diskStorage({
-  destination: (req,file,cb) => {
-    cb(null,'./uploads')
-  },
-  filename: (res,file,cb) =>{
-    nameImg = file.originalname;
-    // console.log(file);
-    cb(null,file.originalname);
-
-  }
-})
- upload = multer({storage:storage}).single("filetoupload");
 
 
 class userController {
@@ -54,39 +34,22 @@ class userController {
         res.status(404).json({ message: "server error" });
       });
   }
-  storeCreate(req, res, next) {
-  //  if(nameImg === undefined){
-  //   const dataUser = req.body;
-  //     dataUser.image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzPprM_CZdb09M5rjPup96Hzjn5jGWYgX6xQimH2Cdsg&s';
-  //     // if(re)
-  //     const user = new User(dataUser);
-  //     user.save().then(() => {
-  //         return res.status(201).json({ message: "created" });
-  //         // res.redirect('/user/createUser')
-  //       })
-  //       .catch((error) => res.status(500).json({ message: error }));
-  //  }else{
-    upload(req,res,async (err) => {
-      if(err){
-        res.send(err)
-      }else{
+ async storeCreate(req, res, next) {
         const dataUser = await req.body;
-        dataUser.image = await nameImg;
-        dataUser.password = '123';
-        // if(re)
-        const user = new User(dataUser);
+        const user =  new User(dataUser);
+        user.image = await store.get("nameImage");
         user.save().then(() => {
-            // return res.status(201).json({ message: "created" });
-            res.redirect('/user/createUser')
+            return res.status(201).json({ message: "created" });
           })
           .catch((error) => res.status(500).json({ message: error }));
-      }
-  })
+      
+
   }
   storeRegister(req,res){
     const dataUser = req.body;
     dataUser.image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzPprM_CZdb09M5rjPup96Hzjn5jGWYgX6xQimH2Cdsg&s';
     const user = new User(dataUser);
+    
       user.save().then(() => {
           return res.status(201).json({ message: "created" });
         })

@@ -83,25 +83,29 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-body px-0 pb-2 ">
-                        <form action="sanPham/addProduct/store" method="POST">
-                            <div class="mb-3 mx-5 p-2"
-                                style=" text-align:center; border:thin solid black; border-radius: 5px;">
-                                <label for="inputTag" style=" cursor:pointer;">
-                                    Chọn ảnh <br />
-                                    <i class="fa fa-2x fa-camera"></i>
-                                    <input id="inputTag" type="file" style="display: none" />
-                                    <br />
-                                    <span id="imageName"></span>
-                                </label>
+                        <form>
+                            <div class="mb-3 mx-5 p-2">
+                                <div class="row">
+                                    <div class="col-lg-12  text-center mb-3">
+                                        <img class="rounded-0" style="width: 150px; height: 150px; margin-bottom: 10px;"
+                                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAOVBMVEW7u7vz8/O4uLi8vLzy8vLe3t7m5ubZ2dn29vbv7+/5+fm1tbW/v7/g4ODr6+vU1NTKysrOzs7FxcW1L4+vAAAD+UlEQVR4nO3bi27iMBAFUHvsJBPbJCH//7E7Yx4bKKG0m4hhdc9KK7UU5Itf4xCcAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADYQyAXdkLBhXfHE6E42okjCwnljR67nYyjDJC3ozIk3ksaDPQhjey9Z/1vaxy9Hw10YsMcY79PPs+H9yekg5emcLs9CRh9YyBhw577ifLmpugj20gY+fCL59Vd9NnjdJDJ3ejf/b51W9CE0o6fv9XSbnrS+HBN+O49sfbhL8ZSoFICUVl93GVLCX++4tHc9uz7Ma//ieWEUk+6Wlauto2apHuBly19rWwJuoZZTajZcqhz83Hzcw1Yd72eVgLYTijLRJdkC1lpPc2neJF9TOPKCxtPSLP8NrXz42lW198aUf+tJLCdkFx7GoNNyTon7xpJw7I6mx+/sOmEFKZzJZ68rJZUz7LLx+OiUE/T4xc2nTDkyyDsmfuZ7g+y1H96H+bu0kdy7JCqfM63W0Jufbwm7D9vLZVqJcbol93UyUhdDFRZh3x9D3qth/LHrTSBDqm/ORHLD2NebO0ke8kpIGsXflxC7SF/04deD1jzoq+I9NwsY1hn6UpRYzahNHi4y3fa91Jb/naiy1PrtS51awHtJnR5XLtmk7qQy+UaqNQ7pVyLHj0q3lWxZhOSe3LNRs8S5z7T4+HlVBm0Vr/vS7sJO74fo4vRykM5T8d6wj+3neZO6rtP6cMS1xPqA+lwmo7LPPIcbj6kD3WnWO/CirnT6VcuLQ96WNSRPZJ0L7nLxmkyoS6R/GSQnjuS+ylf11DS3UWvR8bUH09l+nmiWkwoBenA8cte8WUyRjlXLWbuoFd/pUaIvi35On5tJpSd4q5ge6TXodqcR2PQ3UWfos9bTkebCd236RZGIl10bg4a0psjnUKZTJib1z+gkWcNR9ki8t3uwn6Y5NWKzYQlvf4JjdbmLPOu+HjztsgslV/XNdVeQmp/8CEb12TctXw3cTUidzJLzSUkml7Ptwj6QN1QbF3V14Th5vrSP+GeU5udtT7MY/q+7S+LDVnrQwob5qsfHFqbh0/PFL9gL+G87b0K9vqQzrXXf5yw85uOUpMJN4WESIiESIiESPhxCbWIHL+9jPg6faEmW0vYbXgXbYx1WBhLOKXtSm+WN+vojCV0dNz0hvZjLsbuawsbfyXBUcmtnYSep7xtQKH3CBtK6De/y/vQ1utwVhLGPb5sUTefg4G7oMfUR13fNycv2icD37fQ78z4PbpQdoxk4jszEnHP7z29O52rNwFvvoz+XU/fnQ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4GP9AeMaRV6pmy05AAAAAElFTkSuQmCC"
+                                            alt="Avatar" id="img">
+                                    </div>
+                                    <div class="">
+                                        <input type="file" class="form-control" name="imageProduct" required id="file"
+                                            onchange="loadFile(event)" />
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputPassword1" class="form-label">tên sản phẩm</label>
-                                <input type="text" class="form-control border border-dark ps-2" id="nameProduct"
+                                <input type="text" class="form-control border border-dark ps-2" id="name"
                                     name="name">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputEmail1" class="form-label">đơn giá</label>
-                                <input type="number" class="form-control border border-dark ps-2" name="price">
+                                <input type="number" class="form-control border border-dark ps-2" id='price'
+                                    name="price">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputPassword1" class="form-label">màu sắc</label>
@@ -109,16 +113,16 @@
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputEmail1" class="form-label">loại hàng</label>
-                                <select class="form-select p-lg-2 border border-dark ps-2" name="category"
+                                <select class="form-select p-lg-2 border border-dark ps-2" name="category" id="category"
                                     aria-label="Disabled select example">
-                                    <option value="1">Áo len</option>
-                                    <option value="2">quần thun</option>
-                                    <option value="3">Giày da</option>
+                                    <option value="aoLen">Áo len</option>
+                                    <option value="quanThun">quần thun</option>
+                                    <option value="giayDa">Giày da</option>
                                 </select>
                             </div>
                             <div class="container-fluid text-center">
-                                <button style="width: 95%; background-color: Purple ;" type="submit"
-                                    class="btn btn-primary mt-3">THÊM SẢN
+                                <button style="width: 95%; background-color: Purple ;" type="button"
+                                    class="btn btn-primary mt-3" onclick="addProduct()"> THÊM SẢN
                                     PHẨM</button>
                         </form>
                     </div>
@@ -128,3 +132,55 @@
     </div>
     </div>
 </main>
+
+<script>
+    const img = document.getElementById('img');
+
+    const loadFile = (event) => {
+        img.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    const addProduct = async () => {
+        const name = document.getElementById("name").value;
+        const category = document.getElementById("category").value;
+        const color = document.getElementById("color").value;
+        const price = document.getElementById("price").value;
+        const file = document.getElementById('file');
+        const image =  file.files[0];
+        console.log(image)
+
+        const formData = new FormData()
+        formData.append("name", name)
+        formData.append("imageProduct", image)
+        formData.append("category", category)
+        formData.append("color", color)
+        formData.append("price", price)
+
+      fetch("http://localhost:3000/sanPham/addProduct/store", {
+            method: 'POST',
+            body: formData
+        }).then((res) => {
+        if (res.status === 201) {
+            Swal.fire({
+                title: 'Thông báo',
+                text: "Đăng kí thành công",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận!',
+                cancelButtonText: 'Hủy!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                }
+            })
+        } else {
+            Swal.fire(
+                'Thông báo!',
+                'đăng kí thất bại email đã tồn tại!!',
+                'error'
+            )
+        }
+    }).catch((error) => alert(error));
+        }
+</script>

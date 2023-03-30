@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const sanPhamController = require('../app/controllers/sanPhamController');
+const uploadController = require('../app/controllers/uploadController');
+
 
 router.get('/sanPhamDetail',sanPhamController.goToDetail);
 router.get('/addProduct',sanPhamController.createProduct);
-router.get('/addProduct/store',sanPhamController.store);
+router.post('/addProduct/store',uploadController.upload.single("imageProduct"),sanPhamController.store);
 router.get('/',sanPhamController.index);
 
 

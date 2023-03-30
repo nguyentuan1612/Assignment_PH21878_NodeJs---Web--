@@ -4,6 +4,13 @@ const path = require("path");
 const app = express();
 const route = require("./routes/index.route");
 const db = require('./app/config/db/index');
+const fs = require("fs");
+const dir = "uploads"
+let nameImg;
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, 0744);
+}
+
 app.listen(3000, (req, res) => console.log("3000 OK"));
 
 //connect database;
