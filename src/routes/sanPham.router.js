@@ -5,7 +5,7 @@ const sanPhamController = require('../app/controllers/sanPhamController');
 const uploadController = require('../app/controllers/uploadController');
 
 
-router.get('/sanPhamDetail',sanPhamController.goToDetail);
+router.get('/sanPhamDetail/:id/edit',sanPhamController.goToDetail);
 router.get('/addProduct',sanPhamController.createProduct);
 router.post('/addProduct/store',uploadController.upload.single("imageProduct"),sanPhamController.store);
 router.get('/',sanPhamController.index);
