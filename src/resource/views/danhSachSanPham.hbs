@@ -1,7 +1,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 fixed-start  bg-gradient-dark" id="sidenav-main"
     style="background-color: #222222;">
     <div class="sidenav-header ">
-   <span class=" font-weight-bold text-white position-absolute  top-3 start-9" id="nameAdmin">{{name}}</span>
+        <span class=" font-weight-bold text-white position-absolute  top-3 start-9" id="nameAdmin">HI {{name}}</span>
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
@@ -14,6 +14,8 @@
                     <span class="nav-link-text ms-1 ">Danh sách sản phẩm</span>
                 </a>
             </li>
+
+            {{#if admin}}
             <li class="nav-item">
                 <a class="nav-link text-white " href="/sanPham">
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -22,6 +24,7 @@
                     <span class="nav-link-text ms-1 ">sản phẩm của tôi</span>
                 </a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link text-white  " href="/sanPham/addProduct">
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -46,6 +49,8 @@
                     <span class="nav-link-text ms-1">Thêm người dùng</span>
                 </a>
             </li>
+            {{/if}}
+
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Quản lí tài
                     khoản</h6>
@@ -99,11 +104,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="card my-4">
-                    <!-- <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">bảng sản phẩm</h6>
-              </div>
-            </div> -->
                     <div class="card-body px-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
@@ -122,12 +122,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{#if admin}}
                                     {{#each element}}
-<tr>
+                                    <tr>
                                         <td>
                                             <div class="d-flex px-2 m-lg-2">
                                                 {{!-- <h6 class="mb-0 text-sm">00</h6> --}}
-                                                <img style="width: 90px; height: 90px;" src={{this.image}} alt="áo len" class="rounded">
+                                                <img style="width: 90px; height: 90px;" src={{this.image}} alt="áo len"
+                                                    class="rounded">
                                             </div>
                                         </td>
                                         <td>
@@ -137,7 +139,7 @@
                                             <span>{{this.price}}</span>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="sanPham/sanPhamDetail"
+                                            <a href="sanPham/sanPhamDetail/{{this._id}}/edit"
                                                 class="text-secondary font-weight-bold text-sm">
                                                 <span class="badge badge-sm bg-gradient-secondary p-2">xem</span>
                                             </a>
@@ -151,6 +153,31 @@
                                         </td>
                                     </tr>
                                     {{/each}}
+                                    {{else}}
+                                    {{#each element}}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 m-lg-2">
+                                                {{!-- <h6 class="mb-0 text-sm">00</h6> --}}
+                                                <img style="width: 90px; height: 90px;" src={{this.image}} alt="áo len"
+                                                    class="rounded">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{this.name}}</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span>{{this.price}}</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="sanPham/sanPhamDetail/{{this._id}}/edit"
+                                                class="text-secondary font-weight-bold text-sm">
+                                                <span class="badge badge-sm bg-gradient-secondary p-2">xem</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    {{/if}}
                                 </tbody>
                             </table>
                         </div>
