@@ -78,6 +78,10 @@ class userController {
       })
       .catch((error) => next(error));
   }
+
+  updateAccount (req,res,next) {
+    
+  }
 }
 
 module.exports = new userController();
