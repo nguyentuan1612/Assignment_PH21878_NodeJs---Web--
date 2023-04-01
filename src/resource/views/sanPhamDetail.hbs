@@ -86,54 +86,50 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-body px-0 pb-2 ">
-                        <form>
+                        <form action="/sanPham/{{element._id}}/update?_method=PUT" enctype="multipart/form-data" method="POST">
 
                             <div class="mb-3 mx-5 p-2">
                                 <div class="row">
                                     <div class="col-lg-6  text-center mb-3">
-                                        <img class="rounded " style="width: 120px; height: 120px;" src="/{{element.image}}" alt="{{element.name}}">
+                                        <img class="rounded " style="width: 120px; height: 120px;" src="/{{element.image}}" alt="{{element.name}}" id="img">
                                     </div>
-                                    <div style=" text-align:center; border:thin solid black; border-radius: 5px;" class="col-lg-6 mb-3">
-                                    <label for="inputTag" style=" cursor:pointer;" class="mt-4">
-                                        Chọn ảnh<br />
-                                        <i class="fa fa-2x fa-camera"></i>
-                                        <input id="inputTag" type="file" style="display: none" />
-                                        <br />
-                                        <span id="imageName"></span>
-                                    </label>
-                                </div>
+                                    <div class="">
+                                        {{!-- <input type="file" class="form-control" name="imageProduct" required id="file"
+                                            onchange="loadFile(event)" /> --}}
+
+                                            <input type="file" class="form-control" name="imageProduct"   id="file"  value="{{element.image}}" onchange="loadFile(event)"/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputPassword1" class="form-label">tên sản phẩm</label>
                                 <input type="text" class="form-control border border-dark ps-2"
+                                name="name"
                                     id="exampleInputPassword1" value="{{element.name}}">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputEmail1" class="form-label">đơn giá</label>
-                                <input type="number" class="form-control border border-dark ps-2" value="{{element.price}}">
+                                <input type="number" class="form-control border border-dark ps-2" name="price" value="{{element.price}}">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputPassword1" class="form-label">màu sắc</label>
                                 <input type="text" class="form-control border border-dark ps-2"
-                                    id="exampleInputPassword1" value="{{element.color}}">
+                                    id="exampleInputPassword1" name = "color" value="{{element.color}}">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputEmail1" class="form-label">loại hàng</label>
-                                <select class="form-select p-lg-2 border border-dark ps-2"
-                                    aria-label="Disabled select example">
-                                    <option value="1">Áo len</option>
-                                    <option value="2">quần thun</option>
-                                    <option value="3">Giày da</option>
-                                    <option value="4" selected>Áo kaki</option>
+                                 <select class="form-select p-lg-2 border border-dark ps-2" name="category" id="category">
+                                    <option value="aoLen" {{select element.category "aoLen"}}>Áo len</option>
+                                    <option value="quanThun" {{select element.category "quanThun"}}>quần thun</option>
+                                    <option value="giayDa" {{select element.category "giayDa"}}>Giày da</option>
                                 </select>
                             </div>
                             <div class="container-fluid text-center">
-                                <button style=" background-color: Purple ;width: 40%;" type="button"
-                                    class="btn btn-primary mt-3 col-lg-5 col-sm-11 " onclick="UpdateProduct()">SỬA SẢN
+                                <button style=" background-color: Purple ;width: 40%;"
+                                    class="btn btn-primary mt-3 col-lg-5 col-sm-11 " type="submit" >SỬA SẢN
                                     PHẨM</button>
-                                <a href="/sanPham" style=" background-color: Purple;width: 40%;" type="submit"
-                                    class="btn btn-primary mt-3 col-lg-5 col-sm-11">ĐÓNG</a>
+                                {{!-- <a href="/sanPham" style=" background-color: Purple;width: 40%;" 
+                                    class="btn btn-primary mt-3 col-lg-5 col-sm-11">ĐÓNG</a> --}}
                             </div>
                         </form>
                     </div>
@@ -143,7 +139,21 @@
     </div>
     </div>
 </main>
+
+
 <script>
+    const img = document.getElementById("img");
+    const loadFile = (event) => {
+        img.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
+{{!-- <script>
+    const img = document.getElementById('img');
+
+    const loadFile = (event) => {
+        img.src = URL.createObjectURL(event.target.files[0]);
+    }
+
     const UpdateProduct = () => {
         Swal.fire({
             title: 'Thông báo',
@@ -156,12 +166,22 @@
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Thông báo',
-                    text: "Sửa thành công !!",
-                    icon: 'success',
-                })
+                const name = document.getElementById("name").value;
+                const price = document.getElementById("price").value;
+                const color = document.getElementById("color").value;
+                const category = document.getElementById("category").value;
+                const file = document.getElementById("file");
+
+              const fromData = new FormData();
+              fromData.append("name",name);
+              fromData.append("price",price);
+              fromData.append("color",color);
+              fromData.append("category",category);
+              fromData.append("imageProduct",file.files[0]);
+
+                fetch("http://localhost:3000/sanPham/sanPhamDetail/update")
+
             }
         })
     }
-</script>
+</script> --}}

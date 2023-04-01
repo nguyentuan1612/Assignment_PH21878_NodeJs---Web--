@@ -20,12 +20,12 @@ class sanPhamController {
     const data = await req.body;
     const product = new Product(data);
     product.image = await store.get("nameImage");
-
-    product
-      .save()
-      .then(() => res.status(201).json({ message: "created" }))
-      .catch((error) => res.status(500).json({ message: "error" }));
+    product.save().then(() =>{
+      store.remove("nameImage")
+      res.redirect('/sanPham')
+    }).catch((error) => next(error))
   }
+
   async index(req, res, next) {
     const name = await store.get("nameAdminLogin");
     const admin = await store.get("admin");
@@ -38,6 +38,15 @@ class sanPhamController {
         })
       )
       .catch((error) => next(error));
+  }
+
+  async updateProduct(req,res,next){
+    const dataForm = await req.body;
+    dataForm.image = await store.get("nameImage");
+    Product.updateOne({_id:req.params.id},req.body).then(() => {
+      store.remove("nameImage")
+        res.redirect("/sanPham")
+    }).catch((error) => next(error));
   }
 }
 module.exports = new sanPhamController();

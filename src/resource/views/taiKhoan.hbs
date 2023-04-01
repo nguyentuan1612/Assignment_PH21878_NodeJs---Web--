@@ -88,22 +88,15 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-body px-0 pb-2 ">
-                        <form>
-
+                        <form action="" method="post">
                             <div class="mb-3 mx-5 p-2">
                                 <div class="row">
                                     <div class="col-lg-12  text-center mb-3">
-                                        <img class="rounded-circle" style="width: 150px; height: 150px; margin-bottom: 10px;" src="{{element.image}}" alt="Avatar">
+                                        <img class="rounded-circle" style="width: 150px; height: 150px; margin-bottom: 10px;" src="{{element.image}}" alt="Avatar" id="img">
                                     </div>
-                                    <div style=" text-align:center; border:thin solid black; border-radius: 5px;" class="col-lg-12 ">
-                                    <label for="inputTag" style=" cursor:pointer">
-                                        Chọn ảnh đại diện <br />
-                                        <i class="fa fa-2x fa-camera"></i>
-                                        <input id="inputTag" type="file" style="display: none" />
-                                        <br />
-                                        <span id="imageName"></span>
-                                    </label>
-                                </div>
+                                    <div class="">
+                                            <input type="file" class="form-control" name="imageProduct"   id="file"  value="{{element.image}}" onchange="loadFile(event)"/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="mb-3 mx-5">
@@ -116,7 +109,7 @@
                                 <input type="text" class="form-control border border-dark ps-2" value="{{element.name}}">
                             </div>
                             <div class="container-fluid text-center">
-                                <button style=" background-color: Purple; width: 40%;" type="button"
+                                <button style=" background-color: Purple; width: 40%;" type="submit"
                                     class="btn btn-primary mt-3 col-lg-5 col-sm-11 " onclick="UpdateProfile()">SỬA TÀI KHOẢN</button>
                                 <a href="/login" style=" background-color: Purple; width: 40%;" type="submit"
                                     class="btn btn-primary mt-3 col-lg-5 col-sm-11">ĐĂNG XUẤT</a>
@@ -130,7 +123,13 @@
     </div>
     </main>
     <script>
-    const UpdateProfile = () => {
+
+        const img = document.getElementById("img");
+        const loadFile = (event) => {
+            img.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+    {{!-- const UpdateProfile = () => {
         Swal.fire({
             title: 'Thông báo',
             text: "Bạn có chắc muốn sửa tài khoản không ?",
@@ -149,5 +148,5 @@
                 })
             }
         })
-    }
+    } --}}
 </script>
