@@ -15,14 +15,15 @@ app.engine(
   hbs.engine({
     extname: ".hbs",
     helpers: {
-      "select":(data,value) => { return data === value ? "selected" : ""}
+      "select":(data,value) => { return data === value ? "selected" : ""},
+      "admin":(data) => { return data === true ? "selected" : ""}
     }
   })
 );
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "../uploads/")));
 
-console.log(path.join(__dirname, "../uploads/"));
+// console.log(path.join(__dirname, "../uploads/"));
 
 // app.use(express.static(path.join(__dirname, "resource", "pages", "assets")));
 

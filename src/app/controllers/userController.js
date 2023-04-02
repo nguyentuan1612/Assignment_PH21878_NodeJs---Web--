@@ -9,8 +9,12 @@ class userController {
   createUser(req, res) {
     res.render("themNguoiDung");
   }
-  updateUser(req, res) {
-    res.render("suaNguoiDung");
+  userDetail(req, res) {
+    User.findById({ _id: req.params.id })
+      .then((dataUser) =>
+        res.render("nguoiDungChiTiet", { element: MongooseToObject(dataUser) })
+      )
+      .catch((error) => next(error));
   }
   async login(req, res, next) {
     const { email, password } = await req.body;
@@ -41,6 +45,7 @@ class userController {
     user
       .save()
       .then(() => {
+        store.remove("nameImage");
         return res.status(201).json({ message: "created" });
       })
       .catch((error) => res.status(500).json({ message: error }));
@@ -79,8 +84,21 @@ class userController {
       .catch((error) => next(error));
   }
 
-  updateAccount (req,res,next) {
-    
+  updateAccount(req, res, next) {}
+
+  async updateUser(req,res,next){
+    const data = await req.body.name;
+    const img = await store.get("nameImage");
+    let admin;
+    if(await req.body.admin === "admin"){
+      admin = true;
+    }else{
+      admin = false;
+    }
+    User.updateOne({_id:req.params.id},{name:data,image:img,admin:admin}).then(() => {
+      store.remove("nameImage");
+      res.redirect("/user")
+    }).catch((error) => res.redirect("/user/userDetail/"+req.params.id))
   }
 }
 
