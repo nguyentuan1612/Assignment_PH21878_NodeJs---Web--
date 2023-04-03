@@ -11,6 +11,7 @@ router.post("/createUser/storeRegister", userController.storeRegister);
 router.post("/login", userController.login);
 router.get("/account", userController.account);
 router.put("/:id/updateAccount", userController.updateAccount);
+router.delete("/:id/delete", userController.deleteUser);
 router.get("/", userController.index);
 
 module.exports = router

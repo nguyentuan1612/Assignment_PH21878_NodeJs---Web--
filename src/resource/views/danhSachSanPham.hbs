@@ -125,7 +125,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p id="name" class="text-xs font-weight-bold mb-0">{{this.name}}</p>
+                                            <p id="name" class="text-xs font-weight-bold mb-0" data-id="{{this._id}}">{{this.name}}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
                                             <span>{{this.price}}</span>
@@ -179,13 +179,18 @@
         </div>
     </div>
 </main>
+
+<form id="form-id" method="POST"></form>
 <script>
     const deleteProduct = () => {
-    const value = document.getElementById("name").value
+    const value = document.getElementById("name");
+    const form = document.getElementById("form-id")
+
+    const idProduct = value.getAttribute("data-id");
 
         Swal.fire({
             title: 'Thông báo',
-            text: "Bạn có chắc chắc muốn xóa sản phẩm ?"+value,
+            text: "Bạn có chắc chắc muốn xóa sản phẩm ?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -194,11 +199,8 @@
             cancelButtonText: 'Không',
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Thông báo',
-                    text: "Xóa thành công",
-                    icon: 'success'
-                })
+                form.action = "/sanPham/"+idProduct+"/delete?_method=DELETE";
+                form.submit()
             }
         })
     }

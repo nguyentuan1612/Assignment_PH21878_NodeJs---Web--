@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
 const {
   mutipleMongooseToObject,
   MongooseToObject,
@@ -22,7 +23,8 @@ class userController {
       .then(async (response) => {
         const data = await MongooseToObject(response);
         if (data) {
-          if (data.email === email && data.password === password) {
+        const checkPass =  await bcrypt.compare(password, data.password);
+          if (data.email === email && checkPass === true) {
             store.set("nameAdminLogin", data.name);
             store.set("idAdminLogin", data._id);
             store.set("admin", data.admin);
@@ -41,6 +43,8 @@ class userController {
   async storeCreate(req, res, next) {
     const dataUser = await req.body;
     const user = new User(dataUser);
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(req.body.password, salt);
     user.image = await store.get("nameImage");
     user
       .save()
@@ -50,21 +54,26 @@ class userController {
       })
       .catch((error) => res.status(500).json({ message: error }));
   }
-  storeRegister(req, res) {
+ async storeRegister(req, res) {
     const dataUser = req.body;
     dataUser.image =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzPprM_CZdb09M5rjPup96Hzjn5jGWYgX6xQimH2Cdsg&s";
     const user = new User(dataUser);
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(req.body.password, salt);
     user.admin = false;
     user
       .save()
       .then(() => {
         return res.status(201).json({ message: "created" });
       })
-      .catch((error) => res.status(500).json({ message: error }));
+      .catch((error) =>{
+        console.log(error);
+       return res.status(500).json({ message: error })
+      });
   }
   index(req, res) {
-    User.find({}).then((element) =>
+    User.find().then((element) =>
       res.render("danhSachNguoiDung", {
         element: mutipleMongooseToObject(element),
       })
@@ -99,6 +108,13 @@ class userController {
       store.remove("nameImage");
       res.redirect("/user")
     }).catch((error) => res.redirect("/user/userDetail/"+req.params.id))
+  }
+
+  deleteUser(req,res,next){
+    res.json(req.params.id);
+      // User.deleteOne({_id:req.params.id}).then(() => {
+      //   res.redirect("back");
+      // }).catch((error) => next(error) );
   }
 }
 
