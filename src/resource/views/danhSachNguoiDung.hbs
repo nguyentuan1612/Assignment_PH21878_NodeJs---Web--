@@ -130,7 +130,7 @@
                                         <td class="align-middle">
                                             <button
                                                 class="badge badge-sm bg-gradient-faded-info-vertical small border-0 shadow-sm"
-                                                onclick="deleteUser()">
+                                                onclick="deleteUser('{{this._id}}')">
                                                 xóa
                                             </button>
                                         </td>
@@ -147,14 +147,11 @@
 </main>
 <form id="form-id" method="post"></form>
 <script>
-    const deleteUser = () => {
+    const deleteUser = (id) => {
         const form = document.getElementById("form-id");
-        const value = document.getElementById("value");
-        const idUser = value.getAttribute("data-id");
-
         Swal.fire({
             title: 'Thông báo',
-            text: ""+idUser,
+            text: "Bạn có chắc chắn muốn xóa không ?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -163,7 +160,7 @@
             cancelButtonText: 'Không',
         }).then((result) => {
             if (result.isConfirmed) {
-                form.action = "/user/" + idUser + "/delete?_method=DELETE";
+                form.action = "/user/" + id + "/delete?_method=DELETE";
                 form.submit();
             }
         })

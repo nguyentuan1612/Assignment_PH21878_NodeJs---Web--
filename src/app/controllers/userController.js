@@ -5,7 +5,7 @@ const {
   MongooseToObject,
 } = require("../../util/mongoose");
 const store = require("store");
-
+const jwt = require("jsonwebtoken");
 class userController {
   createUser(req, res) {
     res.render("themNguoiDung");
@@ -23,11 +23,10 @@ class userController {
       .then(async (response) => {
         const data = await MongooseToObject(response);
         if (data) {
-        const checkPass =  await bcrypt.compare(password, data.password);
+          const checkPass = await bcrypt.compare(password, data.password);
           if (data.email === email && checkPass === true) {
-            store.set("nameAdminLogin", data.name);
-            store.set("idAdminLogin", data._id);
-            store.set("admin", data.admin);
+            const token = jwt.sign({ id: data._id }, "asdfsdfyug34ygfhuvf");
+            res.cookie("jwt", token, { maxAge: 3600000, httpOnly: true });
             return res.status(200).json({ message: "success" });
           } else {
             return res.status(404).json({ message: "fail" });
@@ -45,16 +44,15 @@ class userController {
     const user = new User(dataUser);
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(req.body.password, salt);
-    user.image = await store.get("nameImage");
+    user.image = req.file.originalname;
     user
       .save()
       .then(() => {
-        store.remove("nameImage");
         return res.status(201).json({ message: "created" });
       })
       .catch((error) => res.status(500).json({ message: error }));
   }
- async storeRegister(req, res) {
+  async storeRegister(req, res) {
     const dataUser = req.body;
     dataUser.image =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzPprM_CZdb09M5rjPup96Hzjn5jGWYgX6xQimH2Cdsg&s";
@@ -67,9 +65,9 @@ class userController {
       .then(() => {
         return res.status(201).json({ message: "created" });
       })
-      .catch((error) =>{
+      .catch((error) => {
         console.log(error);
-       return res.status(500).json({ message: error })
+        return res.status(500).json({ message: error });
       });
   }
   index(req, res) {
@@ -80,41 +78,48 @@ class userController {
     );
   }
   async account(req, res, next) {
-    const id = await store.get("idAdminLogin");
-    const admin = await store.get("admin");
+    const user = await req.user.toObject();
+    res.render(
+      "taiKhoan",
+      { user: user },
+    );
+  }
 
-    User.findById({ _id: id })
-      .then((element) => {
-        res.render("taiKhoan", {
-          element: MongooseToObject(element),
-          admin: admin,
-        });
+  updateAccount(req, res, next) {
+    const idUser = req.params.id;
+  }
+
+  async updateUser(req, res, next) {
+    const data = await req.body.name;
+    const img = await req.file.originalname;
+    let admin;
+    if ((await req.body.admin) === "admin") {
+      admin = true;
+    } else {
+      admin = false;
+    }
+    User.updateOne(
+      { _id: req.params.id },
+      { name: data, image: img, admin: admin }
+    )
+      .then(() => {
+        res.redirect("/user");
+      })
+      .catch((error) => res.redirect("/user/userDetail/" + req.params.id));
+  }
+
+  deleteUser(req, res, next) {
+    User.deleteOne({ _id: req.params.id })
+      .then(() => {
+        res.redirect("back");
       })
       .catch((error) => next(error));
   }
 
-  updateAccount(req, res, next) {}
-
-  async updateUser(req,res,next){
-    const data = await req.body.name;
-    const img = await store.get("nameImage");
-    let admin;
-    if(await req.body.admin === "admin"){
-      admin = true;
-    }else{
-      admin = false;
-    }
-    User.updateOne({_id:req.params.id},{name:data,image:img,admin:admin}).then(() => {
-      store.remove("nameImage");
-      res.redirect("/user")
-    }).catch((error) => res.redirect("/user/userDetail/"+req.params.id))
-  }
-
-  deleteUser(req,res,next){
-    res.json(req.params.id);
-      // User.deleteOne({_id:req.params.id}).then(() => {
-      //   res.redirect("back");
-      // }).catch((error) => next(error) );
+  logout(req, res, next) {
+    res.clearCookie("jwt");
+    res.redirect("/login");
+    res.end();
   }
 }
 

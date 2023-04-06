@@ -5,7 +5,14 @@ const app = express();
 const route = require("./routes/index.route");
 const db = require('./app/config/db/index');
 const methodOverride = require("method-override");
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+require('dotenv').config();
+
+app.use(passport.initialize());
+
 app.listen(3000, (req, res) => console.log("3000 OK"));
+app.use(cookieParser());
 
 //connect database;
 db.connect(); 
@@ -37,3 +44,7 @@ app.set("views", path.join(__dirname, "resource", "views"));
 app.use(methodOverride("_method"))
 route(app);
 
+// app.use((req, res, next) => {
+//   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+//   next();
+// });

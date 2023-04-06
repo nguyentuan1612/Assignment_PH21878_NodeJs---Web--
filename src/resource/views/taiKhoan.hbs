@@ -1,7 +1,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 fixed-start  bg-gradient-dark" id="sidenav-main"
     style="background-color: #222222;">
     <div class="sidenav-header ">
-   <span class=" font-weight-bold text-white position-absolute  top-3 start-9">HI {{element.name}}</span>
+   <span class=" font-weight-bold text-white position-absolute  top-3 start-9">HI {{user.name}}</span>
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
@@ -14,7 +14,7 @@
                     <span class="nav-link-text ms-1 ">Danh sách sản phẩm</span>
                 </a>
             </li>
-            {{#if admin}}
+            {{#if user.admin}}
             <li class="nav-item">
                 <a class="nav-link text-white  " href="/sanPham/addProduct">
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -88,30 +88,30 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-body px-0 pb-2 ">
-                        <form action="" method="post">
+                        <form action="/user/{{user._id}}/updateAccount" method="post">
                             <div class="mb-3 mx-5 p-2">
                                 <div class="row">
                                     <div class="col-lg-12  text-center mb-3">
-                                        <img class="rounded-circle" style="width: 150px; height: 150px; margin-bottom: 10px;" src="/{{element.image}}" alt="Avatar" id="img">
+                                        <img class="rounded-circle" style="width: 150px; height: 150px; margin-bottom: 10px;" src="/{{user.image}}" alt="Avatar" id="img">
                                     </div>
                                     <div class="">
-                                            <input type="file" class="form-control" name="imageProduct"   id="file"  value="{{element.image}}" onchange="loadFile(event)"/>
+                                            <input type="file" class="form-control" name="imageProduct"   id="file"  value="{{user.image}}" onchange="loadFile(event)"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputPassword1" class="form-label">Email</label>
-                                <input type="text" class="form-control border border-dark ps-2"
-                                    id="exampleInputPassword1" value="{{element.email}}">
+                                <input type="text" class="form-control border border-dark ps-2" disabled
+                                    id="exampleInputPassword1" value="{{user.email}}">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputEmail1" class="form-label">Họ và tên</label>
-                                <input type="text" class="form-control border border-dark ps-2" value="{{element.name}}">
+                                <input type="text" class="form-control border border-dark ps-2" value="{{user.name}}">
                             </div>
                             <div class="container-fluid text-center">
                                 <button style=" background-color: Purple; width: 40%;" type="submit"
                                     class="btn btn-primary mt-3 col-lg-5 col-sm-11 " onclick="UpdateProfile()">SỬA TÀI KHOẢN</button>
-                                <a href="/login" style=" background-color: Purple; width: 40%;" type="submit"
+                                <a href="/user/logout" style=" background-color: Purple; width: 40%;" type="submit"
                                     class="btn btn-primary mt-3 col-lg-5 col-sm-11">ĐĂNG XUẤT</a>
                             </div>
                         </form>

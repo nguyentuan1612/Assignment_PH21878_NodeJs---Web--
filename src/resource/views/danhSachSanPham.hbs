@@ -125,7 +125,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p id="name" class="text-xs font-weight-bold mb-0" data-id="{{this._id}}">{{this.name}}</p>
+                                            <p id="name" class="text-xs font-weight-bold mb-0" data-id="{{this.name}}">{{this.name}}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
                                             <span>{{this.price}}</span>
@@ -139,7 +139,7 @@
                                         <td class="align-middle">
                                             <button
                                                 class="badge badge-sm bg-gradient-faded-info-vertical small border-0 shadow-sm"
-                                                onclick="deleteProduct()">
+                                                onclick="deleteProduct('{{this._id}}')">
                                                 xóa
                                             </button>
                                         </td>
@@ -182,11 +182,9 @@
 
 <form id="form-id" method="POST"></form>
 <script>
-    const deleteProduct = () => {
+    const deleteProduct = (id) => {
     const value = document.getElementById("name");
     const form = document.getElementById("form-id")
-
-    const idProduct = value.getAttribute("data-id");
 
         Swal.fire({
             title: 'Thông báo',
@@ -199,7 +197,7 @@
             cancelButtonText: 'Không',
         }).then((result) => {
             if (result.isConfirmed) {
-                form.action = "/sanPham/"+idProduct+"/delete?_method=DELETE";
+                form.action = "/sanPham/"+id+"/delete?_method=DELETE";
                 form.submit()
             }
         })
