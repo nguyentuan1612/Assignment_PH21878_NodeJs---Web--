@@ -70,8 +70,10 @@ class userController {
         return res.status(500).json({ message: error });
       });
   }
-  index(req, res) {
-    User.find().then((element) =>
+  async index(req, res) {
+    const user = await req.user.toObject();
+    const idUser = await user._id;
+    User.find({_id: {$ne: idUser}}).then((element) =>
       res.render("danhSachNguoiDung", {
         element: mutipleMongooseToObject(element),
       })
@@ -85,8 +87,12 @@ class userController {
     );
   }
 
-  updateAccount(req, res, next) {
-    const idUser = req.params.id;
+  async updateAccount(req, res, next) {
+    const idUser = await req.params.id;
+    const data = await req.body;
+    data.image = req.body.imageUser;
+    // console.log(data);
+    User.updateOne({_id:idUser},data).then(() => res.redirect("back")).catch((error) => res.send(error))
   }
 
   async updateUser(req, res, next) {

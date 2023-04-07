@@ -12,7 +12,7 @@ router.post("/createUser/storeCreate",passport.authenticate('jwt',{session:false
 router.post("/createUser/storeRegister", userController.storeRegister);
 router.post("/login", userController.login);
 router.get("/account",passport.authenticate('jwt',{session:false}), userController.account);
-router.put("/:id/updateAccount",passport.authenticate('jwt',{session:false}), userController.updateAccount);
+router.put("/:id/updateAccount",passport.authenticate('jwt',{session:false}),UploadController.upload.single('imageUser'), userController.updateAccount);
 router.delete("/:id/delete",passport.authenticate('jwt',{session:false}), userController.deleteUser);
 router.get("/logout",passport.authenticate('jwt',{session:false}), userController.logout);
 router.get("/",passport.authenticate('jwt',{session:false}), userController.index);
