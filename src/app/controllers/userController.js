@@ -90,6 +90,7 @@ class userController {
   }
   async account(req, res, next) {
     const user = await req.user;
+    console.log(user);
     res.render("taiKhoan", { user: user });
   }
 
@@ -98,11 +99,13 @@ class userController {
     console.log(req.user);
     const data = await req.body;
     data.image = req.body.imageUser;
+
     if(req.file){
      data.image =  await req.file.originalname;
     }else{
       data.image = req.body.imageUser;
     }
+
     // console.log(data);
     User.updateOne({ _id: idUser }, data)
       .then(() => res.redirect("back"))

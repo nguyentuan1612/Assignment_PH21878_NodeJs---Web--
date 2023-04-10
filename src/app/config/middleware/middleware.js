@@ -44,6 +44,7 @@ const auth_session = async (req, res, next) => {
                     _id: element._id,
                     admin: element.admin,
                     email: element.email,
+                    image: element.image
                 };
                 next();
             } catch (err) {
