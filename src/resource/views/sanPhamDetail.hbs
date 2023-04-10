@@ -55,7 +55,7 @@
                     <span class="nav-link-text ms-1">tài khoản</span>
                 </a>
             </li>
-             <li class="nav-item ">
+            <li class="nav-item ">
                 <a class="nav-link text-white " href="/user/account/updatePassword">
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person</i>
@@ -104,6 +104,7 @@
                         <form action="/sanPham/{{element._id}}/update?_method=PUT" enctype="multipart/form-data"
                             method="POST">
 
+                            {{#if admin}}
                             <div class="mb-3 mx-5 p-2">
                                 <div class="row">
                                     <div class="col-lg-6  text-center mb-3">
@@ -147,6 +148,44 @@
 
                                 </select>
                             </div>
+                            {{else}}
+                            <div class="mb-3 mx-5 p-2">
+                                <div class="row">
+                                    <div class="col-lg-6  text-center mb-3">
+                                        <img class="rounded " style="width: 120px; height: 120px;"
+                                            src="/{{element.image}}" alt="{{element.name}}" id="img">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 mx-5">
+                                <label for="exampleInputPassword1" class="form-label">tên sản phẩm</label>
+                                <input type="text" class="form-control border border-dark ps-2" name="name"
+                                    id="exampleInputPassword1" value="{{element.name}}" disabled>
+                            </div>
+                            <div class="mb-3 mx-5">
+                                <label for="exampleInputEmail1" class="form-label">đơn giá</label>
+                                <input type="number" class="form-control border border-dark ps-2" name="price"
+                                    value="{{element.price}}" disabled>
+                            </div>
+                            <div class="mb-3 mx-5">
+                                <label for="exampleInputPassword1" class="form-label">màu sắc</label>
+                                <input type="text" class="form-control border border-dark ps-2"
+                                    id="exampleInputPassword1" name="color" value="{{element.color}}" disabled>
+                            </div>
+                            <div class="mb-3 mx-5">
+                                <label for="exampleInputEmail1" class="form-label">loại hàng</label>
+                                <select class="form-select p-lg-2 border border-dark ps-2" name="category"
+                                    id="category" disabled>
+                                    <option value="aoLen" {{select element.category "aoLen" }}>Áo </option>
+                                    <option value="quanThun" {{select element.category "quanThun" }}>quần </option>
+                                    <option value="giayDa" {{select element.category "giayDa" }}>Giày </option>
+                                    <option value="mu" {{select element.category "mu" }}>Mũ </option>
+                                    <option value="gangtay" {{select element.category "gangtay" }}>găng tay </option>
+                                    <option value="tat" {{select element.category "tat" }}>tất </option>
+
+                                </select>
+                            </div>
+                            {{/if}}
                             <div class="container-fluid text-center">
                                 {{#if admin}}
                                 <button style=" background-color: Purple ;width: 40%;"

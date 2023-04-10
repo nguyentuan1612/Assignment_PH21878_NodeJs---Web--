@@ -6,7 +6,7 @@ const UploadController = require("../app/controllers/uploadController");
 const Auth = require("../app/config/middleware/middleware")
 router.get("/createUser",Auth.auth_session, userController.createUser);
 router.get("/userDetail/:id",Auth.auth_session, userController.userDetail);
-router.post("/:id/updateUser",Auth.auth_session,UploadController.upload.single('imageUser'), userController.updateUser);
+router.put("/:id/updateUser",Auth.auth_session,UploadController.upload.single('imageUser'), userController.updateUser);
 router.post("/createUser/storeCreate",Auth.auth_session,UploadController.upload.single('imageUser'),userController.storeCreate);
 router.post("/createUser/storeRegister", userController.storeRegister);
 router.post("/login", userController.login);
