@@ -6,10 +6,16 @@ const {
 const store = require("store");
 
 class sanPhamController {
-  goToDetail(req, res, next) {
+  async goToDetail(req, res, next) {
+    const user = await req.user;
+
     Product.findById({ _id: req.params.id })
       .then((element) =>
-        res.render("sanPhamDetail", { element: MongooseToObject(element) })
+        res.render("sanPhamDetail", {
+          element: MongooseToObject(element),
+          name: user.name,
+          admin: user.admin,
+        })
       )
       .catch((error) => next(error));
   }
@@ -19,7 +25,7 @@ class sanPhamController {
   async store(req, res, next) {
     const data = await req.body;
     const product = new Product(data);
-    product.image =  req.file.originalname;
+    product.image = req.file.originalname;
     product
       .save()
       .then(() => {
@@ -29,7 +35,8 @@ class sanPhamController {
   }
 
   async index(req, res, next) {
-    const user = await req.user.toObject();
+    const user = await req.user;
+    console.log("user sp : " + user);
     Product.find({})
       .then((element) =>
         res.render("danhSachSanPham", {
@@ -43,7 +50,9 @@ class sanPhamController {
 
   async updateProduct(req, res, next) {
     const dataForm = await req.body;
-    dataForm.image = await  req.file.originalname;
+    if(req.file){
+      dataForm.image = await req.file.originalname;
+    }
     Product.updateOne({ _id: req.params.id }, req.body)
       .then(() => {
         store.remove("nameImage");

@@ -26,7 +26,8 @@ class userController {
           const checkPass = await bcrypt.compare(password, data.password);
           if (data.email === email && checkPass === true) {
             const token = jwt.sign({ id: data._id }, "asdfsdfyug34ygfhuvf");
-            res.cookie("jwt", token, { maxAge: 3600000, httpOnly: true });
+            // res.cookie("jwt", token, { maxAge: 3600000, httpOnly: true ,sameSite: "strict" });
+            req.session.token = { token: token, id: data._id };
             return res.status(200).json({ message: "success" });
           } else {
             return res.status(404).json({ message: "fail" });
@@ -71,33 +72,38 @@ class userController {
       });
   }
   async index(req, res) {
-    const user = await req.user.toObject();
+    const user = await req.user;
     const idUser = await user._id;
-    User.find({_id: {$ne: idUser}}).then((element) =>
+    User.find({ _id: { $ne: idUser } }).then((element) =>
       res.render("danhSachNguoiDung", {
         element: mutipleMongooseToObject(element),
       })
     );
   }
   async account(req, res, next) {
-    const user = await req.user.toObject();
-    res.render(
-      "taiKhoan",
-      { user: user },
-    );
+    const user = await req.user;
+    res.render("taiKhoan", { user: user });
   }
 
   async updateAccount(req, res, next) {
     const idUser = await req.params.id;
+    console.log(req.user);
     const data = await req.body;
+    // data.image =  await req.file.originalname;
     data.image = req.body.imageUser;
+
     // console.log(data);
-    User.updateOne({_id:idUser},data).then(() => res.redirect("back")).catch((error) => res.send(error))
+    User.updateOne({ _id: idUser }, data)
+      .then(() => res.redirect("back"))
+      .catch((error) => res.send(error));
   }
 
   async updateUser(req, res, next) {
     const data = await req.body.name;
-    const img = await req.file.originalname;
+    let img;
+    if(req.file){
+       img = await req.file.originalname;
+    }
     let admin;
     if ((await req.body.admin) === "admin") {
       admin = true;
@@ -123,9 +129,24 @@ class userController {
   }
 
   logout(req, res, next) {
-    res.clearCookie("jwt");
-    res.redirect("/login");
-    res.end();
+    if(req.session != null )
+    req.session.destroy(  function(){
+       console.log("Đăng xuất thành công")
+      res.redirect('/login');
+   });
+
+    // res.clearCookie("jwt");
+    // res.redirect("/login");
+    // res.end();
+  }
+
+ async updatePasssword(req,res,next){
+    const user = await req.user;
+    User.findById({ _id: user._id }).then((element) =>
+      res.render("doimatkhau", {
+        element: MongooseToObject(element),
+      })
+    );
   }
 }
 

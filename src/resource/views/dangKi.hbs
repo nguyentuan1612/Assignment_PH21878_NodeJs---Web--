@@ -10,7 +10,7 @@
                     <div class="col-lg-5 col-md-8 col-12 mx-auto">
                         <div class="card z-index-0 fadeIn3 fadeInBottom">
                             <div class="card-body">
-                                <form id="theFormID" role="form" class="text-start">
+                                <form id="theFormID" role="form" class="text-start" method="get" action="/login">
                                     <h2>Đăng Ký</h2>
                                     <div class="input-group input-group-outline my-3">
                                         <input id="name" type="text" class="form-control" required
@@ -84,13 +84,13 @@
                     cancelButtonText: 'Hủy!',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        {{!-- document.getElementById('theFormID').submit(); --}}
+                        document.getElementById('theFormID').submit();
                     }
                 })
                     } else {
                         Swal.fire(
                             'Thông báo!',
-                            'đăng kí thất bại email đã tồn tại!!',
+                            'đăng kí thất bại hoặc email đã tồn tại!!',
                             'error'
                         )
                         return;

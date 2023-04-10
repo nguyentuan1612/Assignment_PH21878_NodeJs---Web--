@@ -55,6 +55,14 @@
                     <span class="nav-link-text ms-1">tài khoản</span>
                 </a>
             </li>
+             <li class="nav-item ">
+                <a class="nav-link text-white " href="/user/account/updatePassword">
+                    {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">person</i>
+                    </div> --}}
+                    <span class="nav-link-text ms-1">Đổi mật khẩu</span>
+                </a>
+            </li>
         </ul>
     </div>
     </div>
@@ -68,12 +76,7 @@
                 <h6 class="font-weight-bolder mb-0">DANH SÁCH SẢN PHẨM</h6>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                    <div class="input-group input-group-outline">
-                        <label class="form-label">Tìm kiếm...</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
+
                 <ul class="navbar-nav  justify-content-end">
                     <!-- <li class="nav-item d-flex align-items-center"  style="display: none;">
               <a class="btn btn-outline-primary btn-sm mb-0 me-3"  target="_blank" href="https://www.creative-tim.com/builder/material?ref=navbar-dashboard"></a>
@@ -98,7 +101,15 @@
                 <div class="card my-4">
                     <div class="card-body px-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
+                            <table class="table align-items-center mb-0" id="example" >
+                                <div class="ms-md-auto d-flex ms-11 me-3 align-content-center">
+                                    <div class="input-group input-group-outline">
+                                        <input  type="text" class="form-control ms-3" placeholder="áo dài tay..." style="height: 50px;">
+                                        <button class="btn btn-primary  me-3 ms-3 mt-1">
+                                            Tìm kiếm
+                                        </button>
+                                    </div>
+                                </div>
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -125,7 +136,8 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p id="name" class="text-xs font-weight-bold mb-0" data-id="{{this.name}}">{{this.name}}</p>
+                                            <p id="name" class="text-xs font-weight-bold mb-0" data-id="{{this.name}}">
+                                                {{this.name}}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
                                             <span>{{this.price}}</span>
@@ -183,8 +195,8 @@
 <form id="form-id" method="POST"></form>
 <script>
     const deleteProduct = (id) => {
-    const value = document.getElementById("name");
-    const form = document.getElementById("form-id")
+        const value = document.getElementById("name");
+        const form = document.getElementById("form-id")
 
         Swal.fire({
             title: 'Thông báo',
@@ -197,7 +209,7 @@
             cancelButtonText: 'Không',
         }).then((result) => {
             if (result.isConfirmed) {
-                form.action = "/sanPham/"+id+"/delete?_method=DELETE";
+                form.action = "/sanPham/" + id + "/delete?_method=DELETE";
                 form.submit()
             }
         })

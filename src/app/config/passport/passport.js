@@ -3,8 +3,6 @@ const ExtractJWt = require("passport-jwt").ExtractJwt;
 require('dotenv').config();
 //load up the user model
 const User = require("../../models/User");
-
-
 // trich xuat jwt token tu cookie
 const cookieExtractor = (req) => {
     let token = null;
@@ -20,7 +18,6 @@ module.exports = (passport) => {
         ExtractJWt.fromAuthHeaderWithScheme("jwt"),
         cookieExtractor
     ])
-    // const secretKey = process.env.SECRET;
     const secretKey = "asdfsdfyug34ygfhuvf";
     opts.secretOrKey =  secretKey;
     passport.use(new JwtStrategy(opts, async (jwt_payload,done) => {

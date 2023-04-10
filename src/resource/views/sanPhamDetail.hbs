@@ -1,7 +1,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 fixed-start  bg-gradient-dark" id="sidenav-main"
     style="background-color: #222222;">
     <div class="sidenav-header ">
-   <span class=" font-weight-bold text-white position-absolute  top-3 start-9">NGUYỄN TUẤN</span>
+        <span class=" font-weight-bold text-white position-absolute  top-3 start-9" id="nameAdmin">HI {{name}}</span>
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
@@ -11,9 +11,12 @@
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div> --}}
-                    <span class="nav-link-text ms-1">Danh sách sản phẩm</span>
+                    <span class="nav-link-text ms-1 ">Danh sách sản phẩm</span>
                 </a>
             </li>
+
+            {{#if admin}}
+
             <li class="nav-item">
                 <a class="nav-link text-white  " href="/sanPham/addProduct">
                     {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -38,6 +41,8 @@
                     <span class="nav-link-text ms-1">Thêm người dùng</span>
                 </a>
             </li>
+            {{/if}}
+
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Quản lí tài
                     khoản</h6>
@@ -50,6 +55,14 @@
                     <span class="nav-link-text ms-1">tài khoản</span>
                 </a>
             </li>
+             <li class="nav-item ">
+                <a class="nav-link text-white " href="/user/account/updatePassword">
+                    {{!-- <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">person</i>
+                    </div> --}}
+                    <span class="nav-link-text ms-1">Đổi mật khẩu</span>
+                </a>
+            </li>
         </ul>
     </div>
     </div>
@@ -60,15 +73,21 @@
         data-scroll="true">
         <div class="container-fluid py-1 px-3">
             <nav aria-label="breadcrumb">
-                <h6 class="font-weight-bolder mb-0">SẢN PHẨM CHI TIẾT</h6>
+                <h6 class="font-weight-bolder mb-0">DANH SÁCH SẢN PHẨM</h6>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <div class="input-group input-group-outline">
+                        <label class="form-label">Tìm kiếm...</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
                 <ul class="navbar-nav  justify-content-end">
                     <!-- <li class="nav-item d-flex align-items-center"  style="display: none;">
               <a class="btn btn-outline-primary btn-sm mb-0 me-3"  target="_blank" href="https://www.creative-tim.com/builder/material?ref=navbar-dashboard"></a>
             </li> -->
                     <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                        <a href="#" class="nav-link text-body p-0" id="iconNavbarSidenav">
                             <div class="sidenav-toggler-inner">
                                 <i class="sidenav-toggler-line"></i>
                                 <i class="sidenav-toggler-line"></i>
@@ -86,50 +105,57 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-body px-0 pb-2 ">
-                        <form action="/sanPham/{{element._id}}/update?_method=PUT" enctype="multipart/form-data" method="POST">
+                        <form action="/sanPham/{{element._id}}/update?_method=PUT" enctype="multipart/form-data"
+                            method="POST">
 
                             <div class="mb-3 mx-5 p-2">
                                 <div class="row">
                                     <div class="col-lg-6  text-center mb-3">
-                                        <img class="rounded " style="width: 120px; height: 120px;" src="/{{element.image}}" alt="{{element.name}}" id="img">
+                                        <img class="rounded " style="width: 120px; height: 120px;"
+                                            src="/{{element.image}}" alt="{{element.name}}" id="img">
                                     </div>
                                     <div class="">
-                                        {{!-- <input type="file" class="form-control" name="imageProduct" required id="file"
-                                            onchange="loadFile(event)" /> --}}
+                                        {{!-- <input type="file" class="form-control" name="imageProduct" required
+                                            id="file" onchange="loadFile(event)" /> --}}
 
-                                            <input type="file" class="form-control" name="imageProduct"   id="file"  value="{{element.image}}" onchange="loadFile(event)"/>
+                                        <input type="file" class="form-control" name="imageProduct" id="file"
+                                            value="{{element.image}}" onchange="loadFile(event)" />
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputPassword1" class="form-label">tên sản phẩm</label>
-                                <input type="text" class="form-control border border-dark ps-2"
-                                name="name"
+                                <input type="text" class="form-control border border-dark ps-2" name="name"
                                     id="exampleInputPassword1" value="{{element.name}}">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputEmail1" class="form-label">đơn giá</label>
-                                <input type="number" class="form-control border border-dark ps-2" name="price" value="{{element.price}}">
+                                <input type="number" class="form-control border border-dark ps-2" name="price"
+                                    value="{{element.price}}">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputPassword1" class="form-label">màu sắc</label>
                                 <input type="text" class="form-control border border-dark ps-2"
-                                    id="exampleInputPassword1" name = "color" value="{{element.color}}">
+                                    id="exampleInputPassword1" name="color" value="{{element.color}}">
                             </div>
                             <div class="mb-3 mx-5">
                                 <label for="exampleInputEmail1" class="form-label">loại hàng</label>
-                                 <select class="form-select p-lg-2 border border-dark ps-2" name="category" id="category">
-                                    <option value="aoLen" {{select element.category "aoLen"}}>Áo len</option>
-                                    <option value="quanThun" {{select element.category "quanThun"}}>quần thun</option>
-                                    <option value="giayDa" {{select element.category "giayDa"}}>Giày da</option>
+                                <select class="form-select p-lg-2 border border-dark ps-2" name="category"
+                                    id="category">
+                                    <option value="aoLen" {{select element.category "aoLen" }}>Áo len</option>
+                                    <option value="quanThun" {{select element.category "quanThun" }}>quần thun</option>
+                                    <option value="giayDa" {{select element.category "giayDa" }}>Giày da</option>
                                 </select>
                             </div>
                             <div class="container-fluid text-center">
+                                {{#if admin}}
                                 <button style=" background-color: Purple ;width: 40%;"
-                                    class="btn btn-primary mt-3 col-lg-5 col-sm-11 " type="submit" >SỬA SẢN
+                                    class="btn btn-primary mt-3 col-lg-5 col-sm-11 " type="submit">SỬA SẢN
                                     PHẨM</button>
-                                {{!-- <a href="/sanPham" style=" background-color: Purple;width: 40%;" 
-                                    class="btn btn-primary mt-3 col-lg-5 col-sm-11">ĐÓNG</a> --}}
+                                {{else}}
+                                <a href="/sanPham" style=" background-color: Purple;width: 40%;"
+                                    class="btn btn-primary mt-3 col-lg-5 col-sm-11">ĐÓNG</a>
+                                {{/if}}
                             </div>
                         </form>
                     </div>
@@ -147,7 +173,8 @@
         img.src = URL.createObjectURL(event.target.files[0]);
     }
 </script>
-{{!-- <script>
+{{!--
+<script>
     const img = document.getElementById('img');
 
     const loadFile = (event) => {
@@ -172,12 +199,12 @@
                 const category = document.getElementById("category").value;
                 const file = document.getElementById("file");
 
-              const fromData = new FormData();
-              fromData.append("name",name);
-              fromData.append("price",price);
-              fromData.append("color",color);
-              fromData.append("category",category);
-              fromData.append("imageProduct",file.files[0]);
+                const fromData = new FormData();
+                fromData.append("name", name);
+                fromData.append("price", price);
+                fromData.append("color", color);
+                fromData.append("category", category);
+                fromData.append("imageProduct", file.files[0]);
 
                 fetch("http://localhost:3000/sanPham/sanPhamDetail/update")
 
