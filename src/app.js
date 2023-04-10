@@ -7,6 +7,7 @@ const db = require('./app/config/db/index');
 const methodOverride = require("method-override");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
+const KEY = "asdfsdfyug34ygfhuvf"
 require('dotenv').config();
 const session = require("express-session")
 app.use(passport.initialize());
@@ -44,7 +45,7 @@ app.set("views", path.join(__dirname, "resource", "views"));
 app.use(methodOverride("_method"))
 
 app.use(session({
-  secret:'asdfsdfyug34ygfhuvf', // chuỗi ký tự đặc biệt để Session mã hóa, tự viết
+  secret:KEY, // chuỗi ký tự đặc biệt để Session mã hóa, tự viết
   resave:false,
   saveUninitialized:false
 }));

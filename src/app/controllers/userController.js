@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const KEY = "asdfsdfyug34ygfhuvf"
 const bcrypt = require("bcrypt");
 const {
   mutipleMongooseToObject,
@@ -6,6 +7,7 @@ const {
 } = require("../../util/mongoose");
 const store = require("store");
 const jwt = require("jsonwebtoken");
+const KEYSC = require("../config/env/env")
 class userController {
   createUser(req, res) {
     res.render("themNguoiDung");
@@ -25,7 +27,7 @@ class userController {
         if (data) {
           const checkPass = await bcrypt.compare(password, data.password);
           if (data.email === email && checkPass === true) {
-            const token = jwt.sign({ id: data._id }, "asdfsdfyug34ygfhuvf");
+            const token = jwt.sign({ id: data._id }, KEY, { expiresIn: "1h" });
             // res.cookie("jwt", token, { maxAge: 3600000, httpOnly: true ,sameSite: "strict" });
             req.session.token = { token: token, id: data._id };
             return res.status(200).json({ message: "success" });
@@ -45,7 +47,11 @@ class userController {
     const user = new User(dataUser);
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(req.body.password, salt);
-    user.image = req.file.originalname;
+    if(req.file){
+      user.image = req.file.originalname;
+    }else{
+      user.image =  "anhdaidien.png"
+    }
     user
       .save()
       .then(() => {
@@ -54,10 +60,10 @@ class userController {
       .catch((error) => res.status(500).json({ message: error }));
   }
   async storeRegister(req, res) {
-    const dataUser = req.body;
+    const dataUser =await req.body;
     dataUser.image =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzPprM_CZdb09M5rjPup96Hzjn5jGWYgX6xQimH2Cdsg&s";
-    const user = new User(dataUser);
+    "anhdaidien.png";
+    const user =  new User(dataUser);
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(req.body.password, salt);
     user.admin = false;
@@ -89,9 +95,12 @@ class userController {
     const idUser = await req.params.id;
     console.log(req.user);
     const data = await req.body;
-    // data.image =  await req.file.originalname;
     data.image = req.body.imageUser;
-
+    if(req.file){
+     data.image =  await req.file.originalname;
+    }else{
+      data.image = req.body.imageUser;
+    }
     // console.log(data);
     User.updateOne({ _id: idUser }, data)
       .then(() => res.redirect("back"))
@@ -147,6 +156,28 @@ class userController {
         element: MongooseToObject(element),
       })
     );
+  }
+  async updatePassswordPut(req,res,next){
+    const password = await req.body.password;
+    const passwordN = await req.body.passwordN;
+    const id = await req.params.id;
+
+    User.findById(id).then(async (data) => {
+      const checkPass = await bcrypt.compare(password, data.password);
+      if(checkPass){
+        const salt = await bcrypt.genSalt(10);
+       const passwordNew = await bcrypt.hash(passwordN, salt);
+        
+        User.updateOne({_id:id},{password : passwordNew}).then(() =>{
+          req.session.destroy();
+          return res.status(200).json(({msg:"done"}))
+        }).catch((error) => {
+          return res.status(500).json(({msg:"error"}))
+        })
+      }else{
+        return res.status(404).json(({msg:"mat khau k chinh xac"}))
+      }
+    })
   }
 }
 

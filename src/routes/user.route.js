@@ -15,6 +15,7 @@ router.put("/:id/updateAccount",Auth.auth_session,UploadController.upload.single
 router.delete("/:id/delete",Auth.auth_session, userController.deleteUser);
 router.get("/logout",Auth.auth_session, userController.logout);
 router.get("/account/updatePassword",Auth.auth_session, userController.updatePasssword);
+router.post("/account/:id/updatePassword",Auth.auth_session, userController.updatePassswordPut);
 router.get("/",Auth.auth_session, userController.index);
 
 module.exports = router
