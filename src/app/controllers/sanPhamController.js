@@ -19,8 +19,9 @@ class sanPhamController {
       )
       .catch((error) => next(error));
   }
-  createProduct(req, res) {
-    res.render("themSanPham");
+async  createProduct(req, res) {
+    const name = await req.user.name;
+    res.render("themSanPham",{name:name});
   }
   async store(req, res, next) {
     const data = await req.body;

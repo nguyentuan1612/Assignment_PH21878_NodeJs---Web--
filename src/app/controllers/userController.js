@@ -9,8 +9,9 @@ const store = require("store");
 const jwt = require("jsonwebtoken");
 const KEYSC = require("../config/env/env")
 class userController {
-  createUser(req, res) {
-    res.render("themNguoiDung");
+  async createUser(req, res) {
+    const name = await req.user.name;
+    res.render("themNguoiDung",{name:name});
   }
   userDetail(req, res) {
     User.findById({ _id: req.params.id })
@@ -80,9 +81,10 @@ class userController {
   async index(req, res) {
     const user = await req.user;
     const idUser = await user._id;
-    User.find({ _id: { $ne: idUser } }).then((element) =>
+    User.find({ _id: { $ne: idUser } }).then( async (element) =>
       res.render("danhSachNguoiDung", {
         element: mutipleMongooseToObject(element),
+        name: await req.user.name
       })
     );
   }
